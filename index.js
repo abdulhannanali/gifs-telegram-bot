@@ -150,6 +150,10 @@ function importGif (link, msg, details, fileFormat) {
 				})
 			}
 		})
+		.catch((error) => {
+			console.error(error)
+			errorMessage(error)
+		})
 }
 
 // sends message about the gif details
@@ -171,6 +175,10 @@ function detailsMessage (success, msg) {
 		disable_web_page_preview: true,
 		disable_notification: true
 	})
+}
+
+function errorMessage(msg) {
+	bot.sendMessage(msg.chat.id, "Sorry! An internal error occurred!")
 }
 
 

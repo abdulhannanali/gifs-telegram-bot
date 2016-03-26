@@ -1,0 +1,30 @@
+{
+  "name": "gifs-telegram-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for requesting gifs using gifs.com API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdulhannanali/gifs-telegram-bot.git"
+  },
+  "keywords": [
+    "gifs.com",
+    "telegram",
+    "telegram-bot"
+  ],
+  "author": "Hannan Ali (abdulhannanali@outlook.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abdulhannanali/gifs-telegram-bot/issues"
+  },
+  "homepage": "https://github.com/abdulhannanali/gifs-telegram-bot#readme",
+  "dependencies": {
+    "gifs-api": "0.0.4",
+    "node-telegram-bot-api": "^0.21.1",
+    "request": "^2.69.0",
+    "wurl": "^2.1.0"
+  }
+}

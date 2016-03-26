@@ -37,7 +37,7 @@ else {
 	var port = process.env.PORT || 8443;
 	var host = process.env.HOST;
 	var bot = new TelegramBot(BOT_TOKEN, {webHook: {port: port, host: host}});
-	bot.setWebHook(externalUrl + ':443/bot' + token);
+	bot.setWebHook(externalUrl + ':443/bot' + BOT_TOKEN);
 }
 
 bot.onText(/.*/, (msg, match) => {

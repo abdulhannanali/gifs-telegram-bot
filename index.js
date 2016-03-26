@@ -1,5 +1,6 @@
 const TelegramBot = require("node-telegram-bot-api")
 const tmpl_compile = require("string-template/compile")
+const request = require("request")
 const fs = require("fs")
 
 var gifdetails_tmpl = tmpl_compile(fs.readFileSync("./templates/gifdetails.tmpl", "utf-8"))
@@ -145,7 +146,7 @@ function importGif (link, msg, details, fileFormat) {
 			if (success) {
 				console.log("Gif Imported")
 				if (fileFormat) {
-					bot.sendMessage(msg.chat.id, (success.files[fileFormat]))
+					bot.sendMessage(msg.chat.id, request(success.files[fileFormat]))
 						.then((msg) => {
 							if (details) {
 								detailsMessage(success, msg)

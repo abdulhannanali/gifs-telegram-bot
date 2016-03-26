@@ -32,9 +32,12 @@ else {
 		throw new Error("TELEGRAM BOT TOKEN is not provided")
 	}
 
+
+	var externalUrl = process.env.EXTERNAL_URL || "https://guarded-taiga-18562.herokuapp.com" 
 	var port = process.env.PORT || 8443;
 	var host = process.env.HOST;
 	var bot = new TelegramBot(BOT_TOKEN, {webHook: {port: port, host: host}});
+	bot.setWebHook(externalUrl + ':443/bot' + token);
 }
 
 bot.onText(/.*/, (msg, match) => {

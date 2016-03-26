@@ -146,7 +146,7 @@ function importGif (link, msg, details, fileFormat) {
 			if (success) {
 				console.log("Gif Imported")
 				if (fileFormat) {
-					bot.sendMessage(msg.chat.id, request(success.files[fileFormat]))
+					bot.sendDocument(msg.chat.id, request(success.files[fileFormat]))
 						.then((msg) => {
 							if (details) {
 								detailsMessage(success, msg)

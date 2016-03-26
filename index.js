@@ -11,19 +11,30 @@ var startmessage = fs.readFileSync("./templates/startmessage.md")
 var helpmessage = fs.readFileSync("./templates/helpmessage.md")
 
 var env = process.env.NODE_ENV
-env = "development"
 
 if (env == "development") {
 	require("./config")
 
-	const gifs = require("./lib/gifs.js")(process.env.GIFS_COM_KEY)
-	const BOT_TOKEN = process.env.BOT_TOKEN
+	var gifs = require("./lib/gifs.js")(process.env.GIFS_COM_KEY)
+	var BOT_TOKEN = process.env.BOT_TOKEN
 
 	if (!BOT_TOKEN) {
 		throw new Error("TELEGRAM BOT TOKEN is not provided")
 	}
 
-	const bot = new TelegramBot(BOT_TOKEN, {polling: true})
+	var bot = new TelegramBot(BOT_TOKEN, {polling: true})
+}
+else {
+	var gifs = require("./lib/gifs.js")(process.env.GIFS_COM_KEY)
+	var BOT_TOKEN = process.env.BOT_TOKEN
+
+	if (!BOT_TOKEN) {
+		throw new Error("TELEGRAM BOT TOKEN is not provided")
+	}
+
+	var port = process.env.PORT || 8443;
+	var host = process.env.HOST;
+	var bot = new TelegramBot(token, {webHook: {port: port, host: host}});
 }
 
 bot.onText(/.*/, (msg, match) => {

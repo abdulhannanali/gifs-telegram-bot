@@ -3,6 +3,7 @@ const tmpl_compile = require("string-template/compile")
 const request = require("request")
 const fs = require("fs")
 
+
 var gifdetails_tmpl = tmpl_compile(fs.readFileSync("./templates/gifdetails.tmpl", "utf-8"))
 var error_tmpl = tmpl_compile(fs.readFileSync("./templates/error.tmpl", "utf-8")) 
 
@@ -14,6 +15,7 @@ var helpmessage = fs.readFileSync("./templates/helpmessage.md")
 var env = process.env.NODE_ENV
 
 if (env == "development") {
+	console.log("Development mode running!")
 	require("./config")
 
 	var gifs = require("./lib/gifs.js")(process.env.GIFS_COM_KEY)
@@ -40,6 +42,8 @@ else {
 	var bot = new TelegramBot(BOT_TOKEN, {webHook: {port: port, host: host}});
 	bot.setWebHook(externalUrl + ':443/bot' + BOT_TOKEN);
 }
+
+const analytics = require("./lib/analytics")(process.env.REDIS_ENDPOINT)
 
 bot.onText(/.*/, (msg, match) => {
 	if (msg.text.indexOf("/") == 0) {
@@ -95,8 +99,9 @@ bot.on("video", (msg, match) => {
 	}
 })
 
+ 
+
 bot.on("document", (msg, match) => {
-	console.log(msg)
 	var isSupported = false
 
 	var supportedTypes = [
@@ -132,6 +137,13 @@ bot.on("document", (msg, match) => {
 	}
 })
 
+bot.on("message", (msg) => {
+	analytics.incrMessagesReceived((error, value) => {
+		if (!error) {
+			console.log("Total Messages Received: " + value)			
+		}
+	})
+})
 
 
 // imports the gif to gifs.com
@@ -145,6 +157,11 @@ function importGif (link, msg, details, fileFormat) {
 			
 			if (success) {
 				console.log("Gif Imported")
+				analytics.incrGifConverts((error, val) => {
+					if (!error) {
+						console.log(`Gifs converted: ${val}`)
+					}
+				})
 				if (fileFormat) {
 					bot.sendDocument(msg.chat.id, request(success.files[fileFormat]))
 						.then((msg) => {

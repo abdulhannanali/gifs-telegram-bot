@@ -7,3 +7,4 @@ text without / is interpreted we try to convert it to gif
 Type /types for details on all the stuff we support for conversion.
 
 Type /about to know more about this bot
+Type /stats for stats about this bot

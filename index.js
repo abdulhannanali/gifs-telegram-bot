@@ -6,6 +6,7 @@ const fs = require("fs")
 
 var gifdetails_tmpl = tmpl_compile(fs.readFileSync("./templates/gifdetails.tmpl", "utf-8"))
 var error_tmpl = tmpl_compile(fs.readFileSync("./templates/error.tmpl", "utf-8")) 
+var stats_tmpl = tmpl_compile(fs.readFileSync("./templates/stats.tmpl", "utf-8"))
 
 var aboutdetails = fs.readFileSync("./templates/about.md")
 var typedetails = fs.readFileSync("./templates/typedetails.md")
@@ -85,6 +86,17 @@ bot.onText(/\/types\s*.*/, (msg, match) => {
 // help endpoint
 bot.onText(/\/help\s*.*/, (msg, match) => {
 	bot.sendMessage(msg.chat.id, helpmessage)
+})
+
+bot.onText(/\/stats\s*.*/, (msg, match) => {
+	analytics.getStats((error, stats) => {
+		if (error) {
+			console.log(error)
+		}
+		bot.sendMessage(msg.chat.id, stats_tmpl(stats), {
+			parse_mode: "Markdown"
+		})
+	})
 })
 
 bot.on("video", (msg, match) => {
